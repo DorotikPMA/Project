@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">ProjectPMA</string>
+    <string name="app_name">"Aladin's Exchange"</string>
+    <string-array name="rates_array">
+        <item>eur</item>
+        <item>usd</item>
+        <item>pln</item>
+        <item>czk</item>
+        <item>gbp</item>
+        <item>mxn</item>
+    </string-array>
 </resources>

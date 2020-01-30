@@ -4,9 +4,10 @@ package cz.education.projectpma;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,21 +17,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.util.concurrent.ExecutionException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView tw;
+
+    private TextView f;
 
     private void getJson(){
-        String url = "https://openweathermap.org/data/2.5/weather?q=London&appid=b6907d289e10d714a6e88b30761fae22";
+        String url = "https://api.exchangeratesapi.io/latest?base=CZK";
 
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
@@ -49,7 +47,42 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void parseJsonData(String jsonString){
-        tw.setText(jsonString);
+
+        try {
+            JSONObject obj = new JSONObject(jsonString);
+
+            JSONObject rateData = obj.getJSONObject("rates");
+            String czk = rateData.getString("CZK");
+            String cad = rateData.getString("CAD");
+            String pln = rateData.getString("PLN");
+            String aud = rateData.getString("AUD");
+            String mxn = rateData.getString("MXN");
+            String usd = rateData.getString("USD");
+            String nok = rateData.getString("NOK");
+            String nzd = rateData.getString("NZD");
+            String rub = rateData.getString("RUB");
+            String hrk = rateData.getString("HRK");
+            String jpy = rateData.getString("JPY");
+            String eur = rateData.getString("EUR");
+            String gbp = rateData.getString("GBP");
+
+
+
+
+            Log.d("Rates",rateData.toString() );
+            Log.d("CZK",czk );
+
+            String base = obj.getString("base");
+            Log.d("Base", base);
+            String date = obj.getString("date");
+            Log.d("Date", date);
+            f.setText(base);
+
+        } catch (Throwable t) {
+            Log.e("My App", "Could not parse malformed JSON: \"" + jsonString + "\"");
+        }
+
+
     }
 
     @Override
@@ -57,9 +90,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tw = findViewById(R.id.textView);
-
+        f = findViewById(R.id.from);
         getJson();
+
 
         Log.i("HEllo World","whats'up");
 
