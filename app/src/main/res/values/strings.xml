@@ -6,12 +6,12 @@
 
         <string name="app_name">"Aladin's Exchange"</string>
         <string-array name="rates_array">
-            <item>eur</item>
-            <item>usd</item>
-            <item>pln</item>
-            <item>czk</item>
-            <item>gbp</item>
-            <item>mxn</item>
+            <item>EUR</item>
+            <item>USD</item>
+            <item>PLN</item>
+            <item>CZK</item>
+            <item>GBP</item>
+            <item>MXN</item>
         </string-array>
 
 </resources>

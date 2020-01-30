@@ -2,9 +2,13 @@ package cz.education.exchange;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.View;
+
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -22,12 +26,78 @@ import androidx.navigation.ui.NavigationUI;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
+    EditText rated;
+    EditText howMuch;
+    EditText from;
+    Spinner spinner;
+    Button button;
+    String symbol;
+    double kolik;
+    String hodnota;
+
+    //JSON
+    String base;
+    String date;
+    double kurz;
+    double exchanged;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(navView, navController);
+
+        //inicializce
+        rated = (EditText) findViewById(R.id.rated);
+        rated.setEnabled(false);
+        howMuch = (EditText) findViewById(R.id.howMuch);
+        howMuch.setText("999");
+        from = (EditText) findViewById(R.id.from);
+        from.setText("EUR");
+        spinner = (Spinner) findViewById(R.id.spinner);
+        symbol = spinner.getSelectedItem().toString();
+        button = (Button) findViewById(R.id.button);
+
+        kolik = howMuchToVar();
+
+        Log.d("TEST - spinner", symbol);
+        Log.d("TEST - Kolik", Double.toString(kolik));
 
 
-    private TextView f;
+    }
+
+    public double howMuchToVar(){
+        String tmp = howMuch.getText().toString();
+        tmp = tmp.replace(" ", "");
+        double var = Double.parseDouble(tmp);
+        return var;
+    }
+
+
+    public void myButtonClick(View v)
+    {
+        //hodnota inputu
+        kolik = howMuchToVar();
+        //vybrana mena
+        symbol = spinner.getSelectedItem().toString();
+
+        getJson();
+
+
+    }
+
 
     private void getJson(){
-        String url = "https://api.exchangeratesapi.io/latest?base=CZK";
+
+        String url = "https://api.exchangeratesapi.io/latest?symbols=" + symbol;
 
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
@@ -44,38 +114,29 @@ public class MainActivity extends AppCompatActivity {
         rQueue.add(request);
     }
 
-
     public void parseJsonData(String jsonString){
 
         try {
+            //vytvori JSONobj ze stringu
             JSONObject obj = new JSONObject(jsonString);
 
-            JSONObject rateData = obj.getJSONObject("rates");
-            String czk = rateData.getString("CZK");
-            String cad = rateData.getString("CAD");
-            String pln = rateData.getString("PLN");
-            String aud = rateData.getString("AUD");
-            String mxn = rateData.getString("MXN");
-            String usd = rateData.getString("USD");
-            String nok = rateData.getString("NOK");
-            String nzd = rateData.getString("NZD");
-            String rub = rateData.getString("RUB");
-            String hrk = rateData.getString("HRK");
-            String jpy = rateData.getString("JPY");
-            String eur = rateData.getString("EUR");
-            String gbp = rateData.getString("GBP");
 
-
-
-
-            Log.d("Rates",rateData.toString() );
-            Log.d("CZK",czk );
-
-            String base = obj.getString("base");
+            base = obj.getString("base");
             Log.d("Base", base);
-            String date = obj.getString("date");
+            date = obj.getString("date");
             Log.d("Date", date);
-            f.setText(base);
+
+            JSONObject rateData = obj.getJSONObject("rates");
+            hodnota = rateData.getString(symbol);
+            Log.d("Kurz",hodnota );
+
+            kurz = Double.parseDouble(hodnota);
+
+            exchanged = kolik * kurz;
+
+            rated.setText(Double.toString(exchanged));
+
+
 
         } catch (Throwable t) {
             Log.e("My App", "Could not parse malformed JSON: \"" + jsonString + "\"");
@@ -86,28 +147,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
-
-
-        EditText mEdit = (EditText) findViewById(R.id.rated);
-        mEdit.setEnabled(false);
-        f = findViewById(R.id.from);
-        getJson();
-
-
-        Log.i("HEllo World","whats'up");
-    }
 
 }
+
+
+
