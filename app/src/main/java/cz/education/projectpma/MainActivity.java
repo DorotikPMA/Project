@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         String content;
         Rates rates =  new Rates();
         try {
-            content = rates.execute("https://openweathermap.org/data/2.5/weather?q=London&appid=b6907d289e10d714a6e88b30761fae22").get();
+            content = rates.execute("http://data.fixer.io/api/latest?access_key=360b47de32cb66af0262ed6d0c50863c&symbols=USD,AUD,CAD,PLN,MXN&format=1").get();
             //test
             Log.d("contentData",content);
         } catch (Exception e) {
