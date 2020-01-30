@@ -1,11 +1,17 @@
 <resources>
-    <string name="app_name">"Aladin's Exchange"</string>
-    <string-array name="rates_array">
-        <item>eur</item>
-        <item>usd</item>
-        <item>pln</item>
-        <item>czk</item>
-        <item>gbp</item>
-        <item>mxn</item>
-    </string-array>
+
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+        <string name="app_name">"Aladin's Exchange"</string>
+        <string-array name="rates_array">
+            <item>eur</item>
+            <item>usd</item>
+            <item>pln</item>
+            <item>czk</item>
+            <item>gbp</item>
+            <item>mxn</item>
+        </string-array>
+
 </resources>
