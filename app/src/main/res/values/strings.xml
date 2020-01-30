@@ -1,17 +1,29 @@
 <resources>
 
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">Exchange</string>
+    <string name="title_dashboard">History</string>
+    <string name="title_notifications">Settings</string>
 
         <string name="app_name">"Aladin's Exchange"</string>
         <string-array name="rates_array">
-            <item>EUR</item>
+            <item>CZK</item>
             <item>USD</item>
             <item>PLN</item>
-            <item>CZK</item>
             <item>GBP</item>
+            <item>HRK</item>
+            <item>CAD</item>
+            <item>HUF</item>
+            <item>THB</item>
+            <item>ISK</item>
+            <item>PHP</item>
+            <item>DKK</item>
+            <item>RUB</item>
+            <item>NOK</item>
             <item>MXN</item>
+            <item>ILS</item>
+            <item>KRW</item>
+            <item>SEK</item>
+            <item>RON</item>
         </string-array>
 
 </resources>
