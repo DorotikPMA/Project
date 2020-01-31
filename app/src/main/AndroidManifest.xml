@@ -4,6 +4,8 @@
     package="cz.education.exchange">
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -33,9 +35,13 @@
 
         <activity android:name=".SecondActivity"
             android:theme="@style/AppTheme"
+            android:label="@string/second_activity_label"
             android:screenOrientation="portrait">
 
         </activity>
+
+
+
 
     </application>
 

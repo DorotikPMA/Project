@@ -1,5 +1,9 @@
 package cz.education.exchange;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -18,24 +22,37 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import android.util.Log;
+import android.os.Environment;
+import java.io.File;
+import java.io.FileOutputStream;
 
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MMMMM";
+    final static String appFileName = "appFile.txt";
+    final static String appDirName = "/appDir/";
+    final static String appDirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + appDirName;
+
+
     EditText rated;
     EditText howMuch;
     EditText from;
     Spinner spinner;
     Button button;
-    String symbol;
+    String symbol = "CZK";
     double kolik;
     String hodnota;
 
     //JSON
+    JSONObject obj;
     String base;
     String date;
     double kurz;
@@ -70,22 +87,53 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("TEST - spinner", symbol);
         Log.d("TEST - Kolik", Double.toString(kolik));
-
+        getJson();
 
     }
 
     public double howMuchToVar(){
         String tmp = howMuch.getText().toString();
         tmp = tmp.replace(" ", "");
+        if(tmp.isEmpty()){
+            tmp="0";
+        }
         double var = Double.parseDouble(tmp);
-        return var;
+
+            return var;
+
     }
+
+
+    public void myMoreButtonClick(View v)
+    {
+        Toast.makeText(this, "Button \"MORE\" has been clicked.", Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent(this, SecondActivity.class);
+        if(obj!=null){
+
+        //write your code here
+
+        }else{
+        //json is null
+
+            Toast.makeText(this, "Firstly tap Rate button, sir", Toast.LENGTH_LONG).show();
+        }
+        intent.putExtra("jsonObject", obj.toString());
+        intent.putExtra("symbol", symbol);
+        intent.putExtra("hodnota", hodnota);
+        intent.putExtra("kolik", kolik);
+        intent.putExtra("rated", exchanged);
+        startActivity(intent);
+    }
+
+
 
 
     public void myButtonClick(View v)
     {
         //hodnota inputu
         kolik = howMuchToVar();
+
         //vybrana mena
         symbol = spinner.getSelectedItem().toString();
 
@@ -118,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             //vytvori JSONobj ze stringu
-            JSONObject obj = new JSONObject(jsonString);
+            obj = new JSONObject(jsonString);
 
 
             base = obj.getString("base");
@@ -135,6 +183,8 @@ public class MainActivity extends AppCompatActivity {
             exchanged = kolik * kurz;
 
             rated.setText(Double.toString(exchanged));
+
+            Toast.makeText(this, "Kurz: "+kurz + symbol, Toast.LENGTH_LONG).show();
 
 
 

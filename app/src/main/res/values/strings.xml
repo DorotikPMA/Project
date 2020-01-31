@@ -4,6 +4,8 @@
     <string name="title_dashboard">History</string>
     <string name="title_notifications">Settings</string>
 
+    <string name="second_activity_label">Second Activity</string>
+
         <string name="app_name">"Aladin's Exchange"</string>
         <string-array name="rates_array">
             <item>CZK</item>
